@@ -13,8 +13,8 @@ export default function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} /> {/* Removed extra space */}
-        <Route path="/signin" element={<Signin />} /> {/* Corrected "singin" to "signin" */}
+        <Route path="/" element={<Home />} /> 
+        <Route path="/signin" element={<Signin />} /> 
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />

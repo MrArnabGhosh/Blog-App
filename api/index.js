@@ -21,6 +21,9 @@ app.listen(3000,()=>{
 
 app.use('/api/user',userRouter)
 app.use('/api/auth',authRoutes)
+
+
+
 app.use((err,req,res,next)=>{
     const ststusCode=err.statusCode||500
     const massage = err.massage||'internal server error'
@@ -29,4 +32,4 @@ app.use((err,req,res,next)=>{
         statusCode,
         massage
     })
-})
+});

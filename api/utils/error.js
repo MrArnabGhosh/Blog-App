@@ -3,4 +3,4 @@ export const errorHandeller=(statusCode,massage)=>{
     error.statusCode=statusCode
     error.massage=massage
     return error
-}
+};
