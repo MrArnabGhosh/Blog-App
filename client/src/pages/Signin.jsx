@@ -1,11 +1,13 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import React, { useState } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
+import { signInStart,signInFailure,signInSuccess } from '../redux/user/UserSlice';
+import { useDispatch , useSelector } from 'react-redux';
 
 export default function Signin() {
     const [formData, setFormData] = useState({});
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const{loading,error:errorMessage}=useSelector(state =>state.user)
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -14,12 +16,11 @@ export default function Signin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if ( !formData.email || !formData.password) {
-            return setErrorMessage('Please fill out all fields.');
+            return dispatch(signInFailure('Please fill all the fields'))
         }
 
         try {
-            setLoading(true);
-            setErrorMessage(null);
+            dispatch(signInStart());
             const res = await fetch('/api/auth/signin', {
                 method: 'POST',
                 headers: {
@@ -28,25 +29,26 @@ export default function Signin() {
                 body: JSON.stringify(formData)
             });
 
+            const data = await res.json();
+
             if (!res.ok) {
                 throw new Error('Signin failed, please try again.');
             }
             if (res.ok) {
+              dispatch(signInSuccess(data))
                 navigate('/');
             }
 
-            const data = await res.json();
+            
             if (data.success === false) {
-                return setErrorMessage(data.message);
+              return dispatch(signInFailure(data.message))
             }
+            
 
-            // Handle successful Signin (e.g., navigate to a different page or clear form)
-            // ...
-            setLoading(false);
+          setloading(false);
 
         } catch (error) {
-            setErrorMessage(error.message);
-            setLoading(false);
+          dispatch(signInFailure(error.message));
         }
     };
 

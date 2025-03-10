@@ -1,13 +1,15 @@
 import { Button, Navbar, NavbarToggle, TextInput } from 'flowbite-react'
 import React from 'react'
-import { Link,useLocation } from 'react-router-dom'
 import{AiOutlineSearch} from 'react-icons/ai'
 import {FaMoon} from 'react-icons/fa'
+// import { sign } from 'jsonwebtoken'
+import { Link } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom';
 export default function Header() {
   const path = useLocation().pathname;
   return (
-    <Navbar className='border-b-2' >
-      <Link to='/' className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
+    <Navbar className='border-b-2 ' >
+      <Link to='/' className='self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white'>
       <span className='px-2 pt-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>Daily</span>
       Blog
       </Link>
@@ -26,8 +28,8 @@ export default function Header() {
       <Button className='w-12 h-10 sm:inline'color='gray' pill>
         <FaMoon />
       </Button>
-      <Link>
-      <Button gradientDuoTone='purpleToBlue' outline>
+      <Link to='/signin'>
+      <Button gradientDuoTone='purpleToBlue' outline  onClick={() => Navigate('/signin')} >
         Sign In
       </Button>
       </Link>
