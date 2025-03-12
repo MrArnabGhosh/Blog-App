@@ -40,13 +40,9 @@ export default function Signin() {
                 navigate('/');
             }
 
-            
             if (data.success === false) {
               return dispatch(signInFailure(data.message))
             }
-            
-
-          setloading(false);
 
         } catch (error) {
           dispatch(signInFailure(error.message));
