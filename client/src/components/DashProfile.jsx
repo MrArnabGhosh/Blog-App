@@ -49,7 +49,7 @@ export default function DashProfile() {
                             (progressEvent.loaded * 100) / progressEvent.total
                         )
                         setUploadProgress(progress)
-                        console.log(`Upload progress: ${progress}%`)
+                        
                     }
                 }
             )
