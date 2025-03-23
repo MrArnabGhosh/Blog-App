@@ -33,7 +33,7 @@ export default function Signin() {
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error('Signin failed, please try again.');
+                return dispatch(signInFailure(data.message || "Signin failed"));
             }
             if (res.ok) {
               dispatch(signInSuccess(data))
@@ -76,7 +76,7 @@ export default function Signin() {
                             <Label value='Your Password' />
                             <TextInput type='password' placeholder='*************' id='password' onChange={handleChange} />
                         </div>
-                        <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
+                        <Button gradientDuoTone='purpleToPink' type='submit' >
                             {
                                 loading ? (
                                     <>

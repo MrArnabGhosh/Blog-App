@@ -2,10 +2,17 @@ import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import userRouter from './routes/user.route.js'
-import authRoutes from './routes/auth.route.js'
+import authRouter from './routes/auth.route.js'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 dotenv.config();
 const app = express()
+
+app.use(cors({
+    origin: 'http://localhost:5173', // Your frontend URL (or whatever port Vite is running on)
+    credentials: true
+  }));
+
 app.use(express.json())
 app.use(cookieParser())
 
@@ -21,7 +28,7 @@ app.listen(3000,()=>{
 })
 
 app.use('/api/user',userRouter)
-app.use('/api/auth',authRoutes)
+app.use('/api/auth',authRouter)
 
 
 
