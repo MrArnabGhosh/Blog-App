@@ -52,7 +52,7 @@ export const signin = async (req, res, next) => {
             httpOnly: true,
             secure: false,  // ✅ true only Secure only in production
             sameSite: "lax",
-            maxAge: 3600000
+            maxAge: 20 * 24 * 60 * 60 * 1000   //age 20days
         });
 
         const { password: pass, ...rest } = validUser._doc;

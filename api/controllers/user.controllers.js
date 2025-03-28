@@ -48,3 +48,14 @@ export const updateUser = async (req,res,next)=>{
         }
     
 }
+export const deleteUser = async(req,res,next)=>{
+    if(req.user.id != req.params.userId){
+        return next(errorHandeller(403,'you are not allowed to delete this user'))
+    }
+    try {
+      await user.findByIdAndDelete(req.params.userId)
+      set.status(200).json('user has been deleted')  
+    } catch (error) {
+        next(error)
+    }
+}
