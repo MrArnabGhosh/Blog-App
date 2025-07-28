@@ -6,6 +6,7 @@ import axios from 'axios'
 import { updateUserStart,updateUserSuccess, updateUserFailure, signoutSuccess } from '../redux/user/UserSlice'
 import { deleteUserFailure,deleteUserStart,deleteUserSuccess } from '../redux/user/UserSlice'
 import {HiOutlineExclamationCircle} from 'react-icons/hi'
+import {Link} from  'react-router-dom'
 // Create separate axios instances
 // For backend API with credentials
 const api = axios.create({
@@ -219,6 +220,14 @@ export default function DashProfile() {
                 >
                     {uploading ? 'Uploading...' : 'Update'}
                 </Button>
+
+                {currentUser.isAdmin &&(
+                    <Link to={'/create-post'}>
+                        <Button type='button' gradientDuoTone='purpleToPink' className='w-full'>
+                            Create a post
+                        </Button>
+                    </Link>
+                )}
             </form>
             <div className='text-red-500 flex justify-between mt-5'>
                 <span onClick={()=>setShowModal(true)} className='cursor-pointer'>
