@@ -46,13 +46,14 @@ export const signin = async (req, res, next) => {
             return next(errorHandeller(401, "Invalid password"));  // ✅ Changed to 401
         }
 
-        const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, { expiresIn: "5d" });
 
         res.cookie("access_token", token, {
             httpOnly: true,
             secure: false,  // ✅ true only Secure only in production
             sameSite: "lax",
-            maxAge: 20 * 24 * 60 * 60 * 1000   //age 20days
+            //age 5days
+            maxAge: 5* 24 * 60 * 60 * 1000  
         });
 
         const { password: pass, ...rest } = validUser._doc;

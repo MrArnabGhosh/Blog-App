@@ -2,10 +2,11 @@ import user from "../models/user.model.js";
 import { errorHandeller } from "../utils/error.js";
 import bcryptjs from 'bcryptjs'
 
-export const test =(req,res)=>{
-    res.json({message:'api is working'})
-};
+// export const test =(req,res)=>{
+//     res.json({message:'api is working'})
+// };
 
+// update user Api route 
 export const updateUser = async (req,res,next)=>{
     if(req.body.id){
         if(req.user.id!==req.params.userID){
@@ -48,6 +49,8 @@ export const updateUser = async (req,res,next)=>{
         }
     
 }
+
+// delete user Api route
 export const deleteUser = async(req,res,next)=>{
     if(req.user.id != req.params.userId){
         return next(errorHandeller(403,'you are not allowed to delete this user'))
