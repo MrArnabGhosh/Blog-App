@@ -1,5 +1,5 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
 import OAuth from '../components/OAuth';
 
@@ -37,6 +37,7 @@ export default function Signup() {
             }
 
             const data = await res.json();
+            console.log(data)
             if (data.success === false) {
                 return setErrorMessage(data.message);
             }

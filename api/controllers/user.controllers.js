@@ -1,4 +1,5 @@
-import user from "../models/user.model.js";
+import User from "../models/user.model.js";
+
 import { errorHandeller } from "../utils/error.js";
 import bcryptjs from 'bcryptjs'
 
@@ -9,7 +10,7 @@ import bcryptjs from 'bcryptjs'
 // update user Api route 
 export const updateUser = async (req,res,next)=>{
     if(req.body.id){
-        if(req.user.id!==req.params.userID){
+        if(req.user.id !==req.params.userId){
             return next(errorHandeller(403,'You are not allowed to Update this User'))
         }
     }
@@ -34,7 +35,7 @@ export const updateUser = async (req,res,next)=>{
         }
     }
         try {
-          const updateUser =  await user.findByIdAndUpdate(req.params.userId,{
+          const updateUser =  await User.findByIdAndUpdate(req.params.userId,{
             $set:{
                 username:req.body.username,
                 email:req.body.email,
@@ -56,9 +57,17 @@ export const deleteUser = async(req,res,next)=>{
         return next(errorHandeller(403,'you are not allowed to delete this user'))
     }
     try {
-      await user.findByIdAndDelete(req.params.userId)
-      set.status(200).json('user has been deleted')  
+      await User.findByIdAndDelete(req.params.userId)
+      res.status(200).json('user has been deleted')  
     } catch (error) {
         next(error)
+    }
+}
+
+export const signout = async(req,res,next)=>{
+    try {
+       res.clearCookie('access_token').status(200).json('User has been sign Out') 
+    } catch (error) {
+       next(error) 
     }
 }

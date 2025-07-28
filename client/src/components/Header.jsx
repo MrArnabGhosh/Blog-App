@@ -1,5 +1,4 @@
 import { Avatar, Button, Dropdown, Navbar, NavbarToggle, TextInput } from 'flowbite-react'
-import React from 'react'
 import{AiOutlineSearch} from 'react-icons/ai'
 import {FaMoon,FaSun} from 'react-icons/fa'
 // import { sign } from 'jsonwebtoken'
@@ -7,15 +6,35 @@ import { Link } from 'react-router-dom'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector,useDispatch } from 'react-redux'
 import { toggleTheme } from '../redux/theme/themeSlice'
-
+import { signoutSuccess } from '../redux/user/UserSlice'
 
 
 
 export default function Header() {
+  const navigate = useNavigate()
   const path = useLocation().pathname;
   const dispatch = useDispatch()
   const {currentUser} = useSelector(state =>state.user)
   const { theme } = useSelector((state)=>state.theme)
+
+  const handelSignout = async()=>{
+          try {
+              const res = await fetch('/api/user/signout',{
+                  method: 'POST'
+              })
+  
+              const data = await res.json()
+  
+              if(!res.ok){
+                  console.log(data.message)
+              }else{
+                  dispatch(signoutSuccess())
+              }
+          } catch (error) {
+             console.log(error.message) 
+          }
+  }
+
   return (
     <Navbar className='border-b-2 ' >
       <Link to='/' className='self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white'>
@@ -55,13 +74,13 @@ export default function Header() {
               <Link to='/dashboard?tab=profile'>
                 <Dropdown.Item>Profile</Dropdown.Item>
                 <Dropdown.Divider/>
-                <Dropdown.Item>Sign out</Dropdown.Item>
+                <Dropdown.Item onClick={handelSignout}>Sign out</Dropdown.Item>
               </Link>
           </Dropdown>
         ):
           (
             <Link to='/signin'>
-            <Button gradientDuoTone='purpleToBlue' outline  onClick={() => Navigate('/signin')} >
+            <Button gradientDuoTone='purpleToBlue' outline  onClick={() => navigate('/signin')} >
               Sign In
             </Button>
             </Link>
