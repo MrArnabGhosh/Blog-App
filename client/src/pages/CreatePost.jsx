@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css';
+import {useNavigate} from 'react-router-dom'
 
 const CreatePost = () => {
    const [loading, setLoading] = useState(false)
@@ -11,7 +12,9 @@ const CreatePost = () => {
    const [imagUploadProgress,setImageUploadProgress] = useState(null)
    const [imagUploadError,setImageUploadError] = useState(null)
    const [formData,setFormData] = useState({})
+   const[PublishError, setPublishError] = useState(null)
 
+   const navigate = useNavigate()
 
    const handelUploadImage = async () => {
         // Reset previous states
@@ -82,6 +85,35 @@ const CreatePost = () => {
    const generateContent =  async()=>{
 
    }
+
+
+   const handelSubmit = async(e)=>{
+      e.preventDefault()
+      try {
+          const res = await fetch('/api/post/create',{
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json',
+            },
+            body:JSON.stringify(formData)
+          })
+          const data = await res.json()
+
+          if(!res.ok){
+            setPublishError(data.message)
+            return
+          }
+
+          if(res.ok){
+            setPublishError(null)
+            navigate(`/post/${data.slug}`)
+          }
+      } catch (error) {
+        setPublishError('something went wrong')
+      }
+      
+   }
+   
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a post</h1>
@@ -91,11 +123,11 @@ const CreatePost = () => {
     <p className="text-gray-700">New: AI feature integrated</p>
   </div>
 </div>
-      <form className="flex flex-col gap-4 ">
+      <form className="flex flex-col gap-4 " onSubmit={handelSubmit}>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
             <TextInput type='text' placeholder='Title' required id='title' 
-              className='flex-1'/>
-              <Select>
+              className='flex-1' onChange={(e)=>setFormData({...formData,title:e.target.value})}/>
+              <Select onChange={(e)=>setFormData({...formData,category:e.target.value})}>
                 <option value="uncategorized">Select a category</option>
                 <option value="Technology">Technology</option>
                 <option value="Startup">Startup</option>
@@ -130,7 +162,7 @@ const CreatePost = () => {
           />
         )}
        
-         <ReactQuill theme='snow'  placeholder='write something...' className='h-72 mb-12' required
+         <ReactQuill onChange={(value)=>setFormData({...formData,content:value})} theme='snow'  placeholder='write something...' className='h-72 mb-12' required
         />
 
         {loading && (
@@ -143,6 +175,7 @@ const CreatePost = () => {
       <Button disabled={loading} type='button' onClick={generateContent} className=' hover:underline cursor-pointer' outline>Generate With AI</Button>
        
       <Button type='submit' gradientDuoTone='purpleToPink'>Publish</Button>
+      {PublishError &&  <Alert  className='mt-5' color='failure'>{PublishError}</Alert>}
       </form>
       
     </div>

@@ -18,7 +18,7 @@ export const create = async(req,res,next)=>{
     )
     try {
        const savedPost = await newPost.save() 
-       res.ststus(201).json(savedPost)
+       res.status(201).json(savedPost)
     } catch (error) {
         next(error)
     }
