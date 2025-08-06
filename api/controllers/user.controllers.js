@@ -108,6 +108,6 @@ export const getUsers = async(req,res,next)=>{
         lastMontUsers,
        })
     } catch (error) {
-        
+         next(error)
     }
 }
