@@ -87,10 +87,10 @@ export const getUsers = async(req,res,next)=>{
 
        const userWithoutPassword= users.map((user)=>{
         const {password, ...rest} = user._doc
-        return rest
+           return rest
        })
 
-       const totalUser = await User.countDocuments()
+       const totalUsers = await User.countDocuments()
        const now = new Date()
        const oneMonthAgo = new Date(
         now.getFullYear(),
@@ -98,14 +98,14 @@ export const getUsers = async(req,res,next)=>{
         now.getDate()
        )
 
-       const lastMontUsers = await User.countDocuments({
+       const lastMonthUsers = await User.countDocuments({
         createdAt:{$gte:oneMonthAgo}
        })
 
        res.status(200).json({
         users:userWithoutPassword,
-        totalUser,
-        lastMontUsers,
+        totalUsers,
+        lastMonthUsers,
        })
     } catch (error) {
          next(error)
