@@ -7,7 +7,6 @@ body{
 }
 
 
-
 .ql-editor{
     font-size: 1.05rem;
 }
@@ -21,7 +20,7 @@ body{
     font-family: sans-serif;
     margin: 1.5rem 0;
 }
-.post-content h1{
+.post-content h2{
     font-size: 1.4rem;
     font-family: sans-serif;
     margin: 1.5rem 0;
