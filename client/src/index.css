@@ -4,6 +4,26 @@
 
 body{
     height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Works in Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color */
+  
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, pink, blue); /* Gradient from pink to blue */
+  
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff8acb, #4a90e2); /* Brighter gradient on hover */
 }
 
 
